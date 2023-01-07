@@ -1,22 +1,28 @@
 #ifndef NW2S88_AUDIO_H
 #define NW2S88_AUDIO_H
 
-#define PINMODE_6416_INPUT (0)
-#define PINMODE_6416_OUTPUT (1)
-#define POLARITY_6416_NORMAL (0)
-#define POLARITY_6416_INVERTED (1)
 
-class Expander6416
+#define ENCODER_23017_ADDR0 0
+#define ENCODER_23017_ADDR1 1
+#define ENCODER_23017_ADDR2 2
+#define ENCODER_23017_ADDR3 3
+#define ENCODER_23017_ADDR4 4
+#define ENCODER_23017_ADDR5 5
+#define ENCODER_23017_ADDR6 6
+#define ENCODER_23017_ADDR7 7
+
+
+class Encoder23017
 {
 	public:
 	
-		explicit Expander6416(arduino::MbedI2C *port, bool addr, PinName pin);
+		explicit Encoder23017(arduino::MbedI2C *port, bool addr, PinName pinA, PinName pinB);
 		
-		void configurePin(uint8_t pin, bool mode, void (*callback)(bool));
-		void configureEncoder(uint8_t pin_a, uint8_t pin_b, uint8_t range, uint8_t *val, void (*callback)(void));
-		void digitalRead(uint8_t pin);
-		bool digitalWrite(uint8_t pin, bool value);
-		void configurePolarity(uint8_t pin, bool mode);
+		uint8_t getEncoderVal(uint8_t encoder_number);
+
+		void handleInterruptA();
+		void handleInterruptB();
+		
 		
 	private:
 		
@@ -24,15 +30,9 @@ class Expander6416
 		
 		uint8_t address;
 		
-		uint8_t port0_configuration;
-		uint8_t port1_configuration;
-		uint8_t port0_inversion;
-		uint8_t port1_inversion;
-		uint8_t port0_output;
-		uint8_t port1_output;
-		uint8_t port0_input;
-		uint8_t port1_input;
-}
+		uint8_t portA_input;
+		uint8_t portB_input;		
+};
 
 #endif
 
