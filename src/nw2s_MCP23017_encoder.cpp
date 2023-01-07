@@ -2,12 +2,14 @@
 #include "Wire.h"
 #include "nw2s_portenta_PCA6416.h"
 
-arduino::MbedI2C *i2c_port;
+#define BASEADDRESS (0x01000000)
 
-
-void pca6416_initialize(arduino::MbedI2C *port)
+Expander6416::Expander6416(arduino::MbedI2C *port, bool addr, PinName pin)
 {
-	i2c_port = port;
+	this->i2c_port = port;
+	this->address = BASEADDRESS & (addr << 1);
+	
+	attachInterrupt(digitalPinToInterrupt(PIN_BUTTON), buttonDetected, FALLING);
 }
 
 
