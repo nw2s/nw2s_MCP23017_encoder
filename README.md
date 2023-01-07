@@ -1,1 +1,1 @@
-# nw2s_portenta_PCA6416
+# nw2s_MCP23017_encoder
